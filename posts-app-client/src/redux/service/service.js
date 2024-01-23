@@ -16,6 +16,7 @@ const createPost = (postData) => axios.post(API_POSTS + '/createPost', postData)
 
 const service = {
     getPosts,
+    createPost
 }
 
 export default service;

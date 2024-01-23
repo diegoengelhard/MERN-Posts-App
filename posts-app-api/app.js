@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const bodyParser = require('body-parser');
 
 var app = express();
 
@@ -22,6 +23,10 @@ app.use(errorHandler);
 
 // Connects to MongoDB
 mongoose.connect();
+
+// Imports body-parser middleware
+app.use(bodyParser.json({limit: '50mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 // Enables cors
 app.use(cors());

@@ -12,6 +12,9 @@ import { TextField, Button, Typography, Paper } from '@material-ui/core';
 // Import styles
 import useStyles from './Form.styles';
 
+// Import toasts
+import { toast } from 'react-toastify';
+
 const Form = () => {
     // Set Form data state
     const [postData, setPostData] = useState({
@@ -30,12 +33,33 @@ const Form = () => {
 
     // Form handle submit
     const handleSubmit = async (e) => {
+        e.preventDefault();
 
+        try {
+            // Validations
+            if (!postData.creator || !postData.title || !postData.description) return toast.error('Missing fields!');
+
+            // Dispatch createPost action
+            dispatch(createPost(postData));
+
+            toast.success('Post created successfully!');
+
+            // Clear form
+            clear();
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     // Form handle clear
     const clear = () => {
-
+        setPostData({
+            creator: '',
+            title: '',
+            description: '',
+            tags: '',
+            selectedFile: '',
+        });
     }
 
     return (
@@ -49,10 +73,10 @@ const Form = () => {
                     <TextField name="creator" variant="outlined" label="Creator" fullWidth value={postData.creator} onChange={(e) => setPostData({ ...postData, creator: e.target.value })} />
 
                     {/* Form input title */}
-                    <TextField name="title" variant="outlined" label="Title" fullWidth multiline rows={4} value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
+                    <TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
 
                     {/* Form input description */}
-                    <TextField name="description" variant="outlined" label="Description" fullWidth value={postData.description} onChange={(e) => setPostData({ ...postData, description: e.target.value })} />
+                    <TextField name="description" variant="outlined" label="Description" fullWidth multiline minRows={4} value={postData.description} onChange={(e) => setPostData({ ...postData, description: e.target.value })} />
 
                     {/* Form input tags */}
                     <TextField name="tags" variant="outlined" label="Tags" fullWidth value={postData.tags} onChange={(e) => setPostData({ ...postData, tags: e.target.value })} />
