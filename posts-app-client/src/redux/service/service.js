@@ -5,7 +5,13 @@ import axios from 'axios';
 const API_URL = 'http://localhost:3500/api';
 
 // Define API Posts route
-export const API_POSTS = `${API_URL}/posts`;
+const API_POSTS = `${API_URL}/posts`;
 
 // Posts Routes
-export const getPosts = () => axios.get(API_POSTS + '/getPosts');
+const getPosts = () => axios.get(API_POSTS + '/getPosts');
+
+const service = {
+    getPosts,
+}
+
+export default service;

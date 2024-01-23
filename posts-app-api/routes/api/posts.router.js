@@ -6,9 +6,9 @@ const postController = require('../../controllers/post.controller');
 
 // Defines all routes
 // GET Get all posts
-router.get('/createPost', postController.getPosts);
+router.get('/getPosts', postController.getPosts);
 
 // POST Create new post
-router.post('/getPosts', postController.createPost);
+router.post('/createPost', postController.createPost);
 
 module.exports = router;

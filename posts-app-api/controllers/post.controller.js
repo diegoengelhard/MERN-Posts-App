@@ -7,8 +7,9 @@ const controller = {};
 controller.createPost = async (req, res) => {
     try {
         // TODO: Logic
+        return res.status(200).send({message: 'Create post'});
     } catch (error) {
-        return res.status(500).json({ error: "Internal server error" });
+        return res.status(500).send({ error: "Internal server error" });
     }
 };
 
@@ -16,8 +17,9 @@ controller.createPost = async (req, res) => {
 controller.getPosts = async (req, res) => {
     try {
         // TODO: Logic
+        return res.status(200).send({message: 'Get posts'});
     } catch (error) {
-        return res.status(500).json({ error: "Internal server error" });
+        return res.status(500).send({ error: "Internal server error" });
     }
 }
 

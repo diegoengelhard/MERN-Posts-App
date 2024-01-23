@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 
 // Obtains MongoDB URI from environment variables
-const mongdbUri = process.env.MONGODB_URI;
+const mongodbUri = process.env.MONGODB_URI;
+const port = process.env.PORT;
 
 // Connects to MongoDB
 const connect = async () => {
     try {
-        await mongoose.connect(mongdbUri);
-        console.log("Successfully connected to MongoDB");
+        await mongoose.connect(mongodbUri);
+        console.log("Successfully connected to MongoDB! Listening on port " + port + "...");
     } catch (error) {
         console.log("Error connecting to MongoDB", error);
     }
