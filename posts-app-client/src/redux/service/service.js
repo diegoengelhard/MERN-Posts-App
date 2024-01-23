@@ -8,7 +8,11 @@ const API_URL = 'http://localhost:3500/api';
 const API_POSTS = `${API_URL}/posts`;
 
 // Posts Routes
+// Gets all posts
 const getPosts = () => axios.get(API_POSTS + '/getPosts');
+
+// Creates a new post
+const createPost = (postData) => axios.post(API_POSTS + '/createPost', postData);
 
 const service = {
     getPosts,

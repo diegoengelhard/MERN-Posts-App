@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FileBase from 'react-file-base64';
 
+// Import Redux actions
+import { createPost } from '../../redux/actions/posts/posts.actions';
+
 // Import MUI components
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 
@@ -19,11 +22,14 @@ const Form = () => {
         selectedFile: '',
     });
 
+    // Set dispatch
+    const dispatch = useDispatch();
+
     // Set styles
     const classes = useStyles();
 
     // Form handle submit
-    const handleSubmit = () => {
+    const handleSubmit = async (e) => {
 
     }
 
