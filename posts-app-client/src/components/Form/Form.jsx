@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import FileBase from 'react-file-base64';
 
 // Import Redux actions
-import { createPost } from '../../redux/actions/posts/posts.actions';
+import { createPost, updatePost } from '../../redux/actions/posts/posts.actions';
 
 // Import MUI components
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
@@ -15,7 +15,7 @@ import useStyles from './Form.styles';
 // Import toasts
 import { toast } from 'react-toastify';
 
-const Form = () => {
+const Form = ({ currentId, setCurrentId }) => {
     // Set Form data state
     const [postData, setPostData] = useState({
         creator: '',
@@ -25,11 +25,19 @@ const Form = () => {
         selectedFile: '',
     });
 
+    // Get post from Redux store
+    const post = useSelector((state) => currentId ? state.posts.find((p) => p._id === currentId) : null);
+
     // Set dispatch
     const dispatch = useDispatch();
 
     // Set styles
     const classes = useStyles();
+
+    // Use Effect to set post data
+    useEffect(() => {
+        if (post) setPostData(post);
+    }, [post]);
 
     // Form handle submit
     const handleSubmit = async (e) => {
@@ -39,10 +47,15 @@ const Form = () => {
             // Validations
             if (!postData.creator || !postData.title || !postData.description) return toast.error('Missing fields!');
 
-            // Dispatch createPost action
-            dispatch(createPost(postData));
-
-            toast.success('Post created successfully!');
+            if (currentId) {
+                // Update post
+                dispatch(updatePost(currentId, postData));
+                toast.success('Post updated successfully!');
+            } else {
+                // Dispatch createPost action
+                dispatch(createPost(postData));
+                toast.success('Post created successfully!');
+            }
 
             // Clear form
             clear();

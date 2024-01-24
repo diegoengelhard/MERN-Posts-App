@@ -21,3 +21,13 @@ export const createPost = (postData) => async (dispatch) => {
         console.log(error);
     }
 }
+
+// Update a post
+export const updatePost = (id, postData) => async (dispatch) => {
+    try {
+        const { data } = await service.updatePost(id, postData);
+        dispatch({ type: 'UPDATE', payload: data });
+    } catch (error) {
+        console.log(error);
+    }
+}

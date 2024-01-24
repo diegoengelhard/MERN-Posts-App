@@ -14,9 +14,13 @@ const getPosts = () => axios.get(API_POSTS + '/getPosts');
 // Creates a new post
 const createPost = (postData) => axios.post(API_POSTS + '/createPost', postData);
 
+// Update a post
+const updatePost = (id, postData) => axios.patch(`${API_POSTS}/${id}`, postData);
+
 const service = {
     getPosts,
-    createPost
+    createPost,
+    updatePost
 }
 
 export default service;

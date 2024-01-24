@@ -15,6 +15,9 @@ import Form from '../../components/Form/Form';
 import Posts from '../../components/Posts/FeedPost/FeedPost';
 
 const HomeView = () => {
+    // Set post id state
+    const [currentId, setCurrentId] = useState(null);
+
     const classes = useStyles();
 
     // Set dispatch
@@ -37,11 +40,11 @@ const HomeView = () => {
                         <Grid container justifyContent="space-between" alignItems="stretch" spacing={3}>
                             <Grid item xs={12} sm={7}>
                                 {/* POSTS FEED */}
-                                <Posts />
+                                <Posts setCurrentId={setCurrentId} />
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 {/* FORM */}
-                                <Form />
+                                <Form currentId={currentId} setCurrentId={setCurrentId} />
                             </Grid>
                         </Grid>
                     </Container>

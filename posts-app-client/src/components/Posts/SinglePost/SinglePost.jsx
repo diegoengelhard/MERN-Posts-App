@@ -15,7 +15,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 
-const SinglePost = ({ post }) => {
+const SinglePost = ({ post, setCurrentId }) => {
     // Set dispatch
     const dispatch = useDispatch();
 
@@ -31,9 +31,9 @@ const SinglePost = ({ post }) => {
                 <div className={classes.overlay}>
                     <Typography variant="h6">{post.creator}</Typography>
                 </div>
-                {/* Post Info ... */}
+                {/* Edit Post Info ... */}
                 <div className={classes.overlay2}>
-                    <Button style={{ color: 'white' }} size="small" onClick={() => { }}><MoreHorizIcon fontSize="medium" /></Button>
+                    <Button style={{ color: 'white' }} size="small" onClick={() => setCurrentId(post._id)}><MoreHorizIcon fontSize="medium" />Edit</Button>
                 </div>
                 {/* Post Tags */}
                 <div className={classes.details}>
