@@ -72,4 +72,26 @@ controller.updatePost = async (req, res) => {
     }
 }
 
+// Delete Post
+controller.deletePost = async (req, res) => {
+    try {
+        // Obtain post id
+        const { id } = req.params;
+
+        // Check if post exists
+        const post = await Post.findById(id);
+        if (!post) {
+            return res.status(404).send({ error: "Post not found" });
+        }
+
+        // Delete post
+        await Post.findByIdAndDelete(id);
+
+        // Return success message
+        return res.status(200).send({ message: "Post deleted successfully" });
+    } catch (error) {
+        return res.status(500).send({ error: "Internal server error" });
+    }
+}
+
 module.exports = controller;
