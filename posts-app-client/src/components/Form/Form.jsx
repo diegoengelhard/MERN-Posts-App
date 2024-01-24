@@ -66,6 +66,10 @@ const Form = ({ currentId, setCurrentId }) => {
 
     // Form handle clear
     const clear = () => {
+        // Clear currentId
+        setCurrentId(null);
+
+        // Clear form data
         setPostData({
             creator: '',
             title: '',
@@ -80,7 +84,7 @@ const Form = ({ currentId, setCurrentId }) => {
             <Paper className={classes.paper}>
                 <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                     {/* Form title */}
-                    <Typography variant="h6">Creating a Post</Typography>
+                    <Typography variant="h6"> {currentId ? 'Editing' : 'Creating'} a Post</Typography>
 
                     {/* Form input creator */}
                     <TextField name="creator" variant="outlined" label="Creator" fullWidth value={postData.creator} onChange={(e) => setPostData({ ...postData, creator: e.target.value })} />
