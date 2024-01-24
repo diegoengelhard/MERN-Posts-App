@@ -17,10 +17,14 @@ const createPost = (postData) => axios.post(API_POSTS + '/createPost', postData)
 // Update a post
 const updatePost = (id, postData) => axios.patch(`${API_POSTS}/${id}`, postData);
 
+// Delete a post
+const deletePost = (id) => axios.delete(`${API_POSTS}/${id}`);
+
 const service = {
     getPosts,
     createPost,
-    updatePost
+    updatePost, 
+    deletePost
 }
 
 export default service;

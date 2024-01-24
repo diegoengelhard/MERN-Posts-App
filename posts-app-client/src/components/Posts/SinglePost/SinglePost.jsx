@@ -2,6 +2,12 @@ import React from 'react';
 
 import { useDispatch } from 'react-redux';
 
+// Import Redux actions
+import { deletePost } from '../../../redux/actions/posts/posts.actions';
+
+// Import toast
+import { toast } from 'react-toastify';
+
 // Import styles
 import useStyles from './SinglePost.styles';
 
@@ -21,6 +27,12 @@ const SinglePost = ({ post, setCurrentId }) => {
 
     // Set styles
     const classes = useStyles();
+
+    // Delete post
+    const handleDelete = () => {
+        dispatch(deletePost(post._id));
+        toast.success('Post deleted successfully!');
+    }
 
     return (
         <>
@@ -48,7 +60,7 @@ const SinglePost = ({ post, setCurrentId }) => {
                 {/* Post Actions */}
                 <CardActions className={classes.cardActions}>
                     <Button size="small" color="primary" onClick={() => {}}><ThumbUpAltIcon fontSize="small" /> Like </Button>
-                    <Button size="small" color="primary" onClick={() => {}}><DeleteIcon fontSize="small" /> Delete</Button>
+                    <Button size="small" color="primary" onClick={handleDelete}><DeleteIcon fontSize="small" /> Delete</Button>
                 </CardActions>
             </Card>
         </>
