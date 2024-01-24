@@ -41,4 +41,35 @@ controller.getPosts = async (req, res) => {
     }
 }
 
+// Update post
+controller.updatePost = async (req, res) => {
+    try {
+        // Obtain post id
+        const { id } = req.params;
+
+        // Obtain post data from request body
+        const { creator, title, description, tags, selectedFile } = req.body;
+
+        // Check if post exists
+        const post = await Post.findById(id);
+        if (!post) {
+            return res.status(404).send({ error: "Post not found" });
+        }
+
+        // Update post
+        const updatedPost = await Post.findByIdAndUpdate(id, {
+            creator,
+            title,
+            description,
+            tags,
+            selectedFile
+        }, { new: true });
+
+        // Return updated post
+        return res.status(200).json(updatedPost);
+    } catch (error) {
+        return res.status(500).send({ error: "Internal server error" });
+    }
+}
+
 module.exports = controller;

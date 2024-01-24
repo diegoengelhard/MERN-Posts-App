@@ -11,4 +11,7 @@ router.get('/getPosts', postController.getPosts);
 // POST Create new post
 router.post('/createPost', postController.createPost);
 
+// PATCH Update post
+router.patch('/:id', postController.updatePost);
+
 module.exports = router;
