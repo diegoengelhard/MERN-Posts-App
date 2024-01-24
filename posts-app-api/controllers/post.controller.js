@@ -94,4 +94,13 @@ controller.deletePost = async (req, res) => {
     }
 }
 
+// Like Post
+controller.toggleLike = async (req, res) => {
+    try {
+        // TODO: Logic with auth
+    } catch (error) {
+        return res.status(500).send({ error: "Internal server error" });
+    }
+}
+
 module.exports = controller;

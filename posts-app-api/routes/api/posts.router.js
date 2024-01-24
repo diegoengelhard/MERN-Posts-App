@@ -17,4 +17,7 @@ router.patch('/:id', postController.updatePost);
 // DELETE Delete post
 router.delete('/:id', postController.deletePost);
 
+// PATCH Like post
+router.patch('/:id/likePost', postController.toggleLike);
+
 module.exports = router;
