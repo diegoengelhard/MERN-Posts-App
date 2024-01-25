@@ -15,11 +15,17 @@ import GoogleIcon from '../../components/GoogleIcon/GoogleIcon';
 // Import MUI components
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { set } from 'mongoose';
+import { toast } from 'react-toastify';
+
+// Form initial state
+const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
 
 const AuthView = () => {
     // Set states
     const [showPassword, setShowPassword] = useState(false);
     const [isSignUp, setIsSignUp] = useState(true);
+    const [formData, setFormData] = useState(initialState);
 
     // Set styles
     const classes = useStyles();
@@ -29,12 +35,19 @@ const AuthView = () => {
 
     // Form Handle submit
     const handleSubmit = () => {
+        e.preventDefault();
 
+        try {
+            // TODO: Logic
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message);
+        }
     }
 
     // Form Handle Input Change
-    const handleInputChange = () => {
-
+    const handleInputChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     }
 
     // Switch Between Sign In and Sign Up
@@ -75,7 +88,7 @@ const AuthView = () => {
                             <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                                 {isSignUp ? 'Sign Up' : 'Sign In'}
                             </Button>
-                            
+
                             {/* SWITCH BETWEEN SIGN IN AND SIGN UP */}
                             <Grid container justifyContent='center'>
                                 <Grid item>
