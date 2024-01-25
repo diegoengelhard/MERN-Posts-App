@@ -15,7 +15,6 @@ import GoogleIcon from '../../components/GoogleIcon/GoogleIcon';
 // Import MUI components
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { set } from 'mongoose';
 import { toast } from 'react-toastify';
 
 // Form initial state

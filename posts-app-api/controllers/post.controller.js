@@ -1,6 +1,8 @@
 // Import Post model
 const Post = require('../models/Post.model');
 
+const mongoose = require('mongoose');
+
 const controller = {};
 
 // Create new post
@@ -97,9 +99,33 @@ controller.deletePost = async (req, res) => {
 // Like Post
 controller.toggleLike = async (req, res) => {
     try {
-        // TODO: Logic with auth
+        // Obtains post id from request params
+        const { id } = req.params
+
+        // Verify if post exists
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+
+        // Find post
+        const post = await Post.findById(id);
+
+        // Check if user has already liked the post
+        const index = post.likes.findIndex((id) => id === String(req.userId));
+
+        // If user has already liked the post, remove like
+        if (index === -1) {
+            post.likes.push(req.userId);
+        } else {
+            post.likes = post.likes.filter((id) => id !== String(req.userId));
+        }
+
+        // Update post
+        const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true });
+
+        // Return updated post
+        res.status(200).json({message: "Post updated successfully", updatedPost});
+
     } catch (error) {
-        return res.status(500).send({ error: "Internal server error" });
+        return res.status(500).send(error.message);
     }
 }
 
