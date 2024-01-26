@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import FileBase from 'react-file-base64';
 
@@ -16,7 +16,9 @@ import useStyles from './Form.styles';
 import { toast } from 'react-toastify';
 
 const Form = ({ currentId, setCurrentId }) => {
-    // Set Form data state
+    // Set states
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    console.log('user from form:', user);
     const [postData, setPostData] = useState({
         creator: '',
         title: '',
@@ -31,8 +33,21 @@ const Form = ({ currentId, setCurrentId }) => {
     // Set dispatch
     const dispatch = useDispatch();
 
+    // Set navigate
+    const navigate = useNavigate();
+
     // Set styles
     const classes = useStyles();
+
+    // Use Effect to set user
+    useEffect(() => {
+        const profile = JSON.parse(localStorage.getItem('profile'));
+        setUser(profile);
+
+        if (profile && profile.user) {
+            setPostData((prevData) => ({ ...prevData, creator: `${profile.user.firstname} ${profile.user.lastname}` }));
+        }
+    }, []);
 
     // Use Effect to set post data
     useEffect(() => {
@@ -71,7 +86,6 @@ const Form = ({ currentId, setCurrentId }) => {
 
         // Clear form data
         setPostData({
-            creator: '',
             title: '',
             description: '',
             tags: '',
@@ -87,27 +101,32 @@ const Form = ({ currentId, setCurrentId }) => {
                     <Typography variant="h6"> {currentId ? 'Editing' : 'Creating'} a Post</Typography>
 
                     {/* Form input creator */}
-                    <TextField name="creator" variant="outlined" label="Creator" fullWidth value={postData.creator} onChange={(e) => setPostData({ ...postData, creator: e.target.value })} />
+                    {user && <Typography variant="subtitle1">Creator: {postData.creator}</Typography>}
 
                     {/* Form input title */}
-                    <TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
+                    <TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} disabled={!user} />
 
                     {/* Form input description */}
-                    <TextField name="description" variant="outlined" label="Description" fullWidth multiline minRows={4} value={postData.description} onChange={(e) => setPostData({ ...postData, description: e.target.value })} />
+                    <TextField name="description" variant="outlined" label="Description" fullWidth multiline minRows={4} value={postData.description} onChange={(e) => setPostData({ ...postData, description: e.target.value })} disabled={!user} />
 
                     {/* Form input tags */}
-                    <TextField name="tags" variant="outlined" label="Tags" fullWidth value={postData.tags} onChange={(e) => setPostData({ ...postData, tags: e.target.value.split(',') })} />
+                    <TextField name="tags" variant="outlined" label="Tags" fullWidth value={postData.tags} onChange={(e) => setPostData({ ...postData, tags: e.target.value.split(',') })} disabled={!user} />
 
                     {/* Form input file */}
                     <div className={classes.fileInput}>
-                        <FileBase type="file" multiple={false} onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} />
+                        <FileBase type="file" multiple={false} onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} disabled={!user} />
                     </div>
 
                     {/* Form submit button */}
-                    <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>Submit</Button>
+                    <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth onClick={() => !user && navigate('/auth')}>
+                        {user ? 'Submit' : 'Access Now to Post'}
+                    </Button>
+
 
                     {/* Form clear button */}
-                    <Button variant="contained" color="secondary" size="small" onClick={clear} fullWidth>Clear</Button>
+                    <Button variant="contained" color="secondary" size="small" onClick={clear} fullWidth disabled={!user}>
+                        Clear
+                    </Button>
                 </form>
             </Paper>
         </>

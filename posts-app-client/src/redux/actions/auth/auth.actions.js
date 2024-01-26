@@ -5,7 +5,7 @@ import service from "../../service/service";
 export const signUp = (userData) => async (dispatch) => {
   try {
     const { data } = await service.signUp(userData);
-    dispatch({ type: "SIGN_UP", payload: data });
+    dispatch({ type: "AUTH", payload: data });
   } catch (error) {
     console.log(error);
   }
@@ -15,7 +15,9 @@ export const signUp = (userData) => async (dispatch) => {
 export const signIn = (userData) => async (dispatch) => {
   try {
     const { data } = await service.signIn(userData);
-    dispatch({ type: "SIGN_IN", payload: data });
+    // Save user data in local storage
+    localStorage.setItem('profile', JSON.stringify(data));
+    dispatch({ type: "AUTH", payload: data });
   } catch (error) {
     console.log(error);
   }

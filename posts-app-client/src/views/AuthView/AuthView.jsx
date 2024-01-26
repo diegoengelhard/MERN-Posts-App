@@ -1,104 +1,98 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
-// Import Input component
-import Input from '../../components/Input/Input';
-
-// Import Google Login component
-import { GoogleLogin } from 'react-google-login'; // 3h 16m
-
-// Import styles
-import useStyles from './AuthView.styles';
-import GoogleIcon from '../../components/GoogleIcon/GoogleIcon';
-
-// Import MUI components
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { signIn, signUp } from '../../redux/actions/auth/auth.actions';
+import Input from '../../components/Input/Input';
+import useStyles from './AuthView.styles';
 import { toast } from 'react-toastify';
 
-// Form initial state
-const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
+let initialState = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+};
 
 const AuthView = () => {
-    // Set states
-    const [showPassword, setShowPassword] = useState(false);
-    const [isSignUp, setIsSignUp] = useState(true);
-    const [formData, setFormData] = useState(initialState);
-
-    // Set styles
+    const [form, setForm] = useState(initialState);
+    const [isSignup, setIsSignup] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const classes = useStyles();
 
-    // Show password
+    const [showPassword, setShowPassword] = useState(false);
     const handleShowPassword = () => setShowPassword(!showPassword);
 
-    // Form Handle submit
-    const handleSubmit = () => {
-        e.preventDefault();
+    const switchMode = () => {
+        //setForm(initialState);
+        setIsSignup((prevIsSignup) => !prevIsSignup);
+        setShowPassword(false);
+    };
 
-        try {
-            // TODO: Logic
-        } catch (error) {
-            console.log(error);
-            toast.error(error.message);
+    useEffect(() => {
+        if (!isSignup) {
+            initialState = { email: '', password: '' };
+        } else {
+            initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
+        }
+
+        setForm(initialState);
+    }, [isSignup])
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(form);
+
+        if (isSignup) {
+            dispatch(signUp(form));
+            toast.success('Sign up successful!');
+            setIsSignup(false);
+        } else {
+            dispatch(signIn(form));
+            toast.success('Sign in successful!');
+            navigate('/');
         }
     }
 
-    // Form Handle Input Change
-    const handleInputChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    }
-
-    // Switch Between Sign In and Sign Up
-    const switchMode = () => {
-        setIsSignUp(!isSignUp);
-        setShowPassword(false);
-    }
+    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
     return (
         <>
             <Container component="main" maxWidth="xs">
-                    <Paper className={classes.paper} elevation={3}>
-                        {/* LOGO */}
-                        <Avatar className={classes.avatar}>
-                            <LockOutlinedIcon />
-                        </Avatar>
-                        {/* TITLE */}
-                        <Typography component="h1" variant="h5">{isSignUp ? 'Sign up' : 'Sign in'}</Typography>
-
-                        {/* FORM */}
-                        <form className={classes.form} onSubmit={handleSubmit}>
-                            <Grid container spacing={2}>
-                                {isSignUp && (
-                                    <>
-                                        {/* INPUT FIRST & LASTNAME ONLY ON SIGN UP */}
-                                        <Input name="firstName" label="First Name" handleChange={handleInputChange} autoFocus half />
-                                        <Input name="lastName" label="Last Name" handleChange={handleInputChange} half />
-                                    </>
-                                )}
-                                {/* INPUT EMAIL */}
-                                <Input name="email" label="Email Address" handleChange={handleInputChange} type="email" />
-                                {/* INPUT PASSWORD */}
-                                <Input name="password" label="Password" handleChange={handleInputChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
-                                {/* INPUT CONFIRM PASSWORD ONLY ON SIGN UP */}
-                                {isSignUp && <Input name="confirmPassword" label="Repeat Password" handleChange={handleInputChange} type="password" />}
+                <Paper className={classes.paper} elevation={3}>
+                    <Avatar className={classes.avatar}>
+                        <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">{isSignup ? 'Sign up' : 'Sign in'}</Typography>
+                    <form className={classes.form} onSubmit={handleSubmit}>
+                        <Grid container spacing={2}>
+                            {isSignup && (
+                                <>
+                                    <Input name="firstName" label="First Name" handleChange={handleChange} autoFocus half value={form.firstName} />
+                                    <Input name="lastName" label="Last Name" handleChange={handleChange} half value={form.lastName} />
+                                </>
+                            )}
+                            <Input name="email" label="Email Address" handleChange={handleChange} type="email" value={form.email} />
+                            <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} value={form.password} />
+                            {isSignup && <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password" value={form.confirmPassword} />}
+                        </Grid>
+                        <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+                            {isSignup ? 'Sign Up' : 'Sign In'}
+                        </Button>
+                        <Grid container justifyContent="flex-end">
+                            <Grid item>
+                                <Button onClick={switchMode}>
+                                    {isSignup ? 'Already have an account? Sign in' : "Don't have an account? Sign Up"}
+                                </Button>
                             </Grid>
-                            {/* SUBMIT FORM BUTTON */}
-                            <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-                                {isSignUp ? 'Sign Up' : 'Sign In'}
-                            </Button>
-
-                            {/* SWITCH BETWEEN SIGN IN AND SIGN UP */}
-                            <Grid container justifyContent='center'>
-                                <Grid item>
-                                    <Button onClick={switchMode}>
-                                        {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign Up"}
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                        </form>
-                    </Paper>
-                </Container>
+                        </Grid>
+                    </form>
+                </Paper>
+            </Container>
         </>
     )
 }

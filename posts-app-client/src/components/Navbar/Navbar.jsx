@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 // Import MUI components
@@ -11,14 +13,29 @@ import { toast } from 'react-toastify';
 import useStyles from './Navbar.styles';
 
 const Navbar = () => {
+    // Set states
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    if (user) {
+        console.log('user exists');
+        console.log('user:', user);
+        console.log('user firstname:', user.user.firstname);
+    }
+
+    // Set dispatch
+    const dispatch = useDispatch();
+
     // Set styles
     const classes = useStyles();
 
-    // Set user (temporary)
-    const user = null;
+    // Use Effect to set user
+    useEffect(() => {
+        setUser(JSON.parse(localStorage.getItem('profile')));
+    }, []);
 
     // logout function
     const logout = () => {
+        // Dispatch logout action from redux
+        dispatch({ type: 'LOGOUT' });
         toast.success('Logout successful!');
     }
 
@@ -32,12 +49,12 @@ const Navbar = () => {
                 <Toolbar className={classes.toolbar}>
                     {user ? (
                         <div className={classes.profile}>
-                            <Avatar className={classes.purple} alt={user.result.name} src={user.result.imageUrl}>{user.result.name.charAt(0)}</Avatar>
-                            <Typography className={classes.userName} variant="h6">{user.result.name}</Typography>
+                            <Avatar className={classes.purple} alt={user.user.firstname} >{user.user.firstname.charAt(0)}</Avatar>
+                            <Typography className={classes.userName} variant="h6">Welcome, {user.user.firstname}</Typography>
                             <Button variant="contained" className={classes.logout} color="secondary" onClick={logout} >Logout</Button>
                         </div>
                     ) : (
-                        <Button component={Link} to='/auth' variant="contained" color="primary">Sign In</Button>
+                        <Button component={Link} to='/auth' variant="contained" color="primary">Access Now</Button>
                     )}
                 </Toolbar>
             </AppBar>

@@ -77,8 +77,8 @@ controller.signIn = async (req, res) => {
 
         // Sends successful response
         res.status(200).send({ token: token, user: user, message: 'User signed in successful' });
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        res.status(400).send(error);
     }
 };
 

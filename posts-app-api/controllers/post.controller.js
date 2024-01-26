@@ -122,7 +122,7 @@ controller.toggleLike = async (req, res) => {
         const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true });
 
         // Return updated post
-        res.status(200).json({message: "Post updated successfully", updatedPost});
+        res.status(200).json({message: "Post liked/unliked successfully", updatedPost});
 
     } catch (error) {
         return res.status(500).send(error.message);
