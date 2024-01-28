@@ -11,6 +11,9 @@ const { authenticate } = require('../../middlewares/auth.middleware');
 // GET Get all posts
 router.get('/getPosts', postController.getPosts);
 
+// GET Get Posts by Search
+router.get('/search', postController.getPostsBySearch);
+
 // POST Create new post
 router.post('/createPost', authenticate, postController.createPost);
 

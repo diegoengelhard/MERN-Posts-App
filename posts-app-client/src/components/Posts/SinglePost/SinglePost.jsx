@@ -22,6 +22,16 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 
 const SinglePost = ({ post, setCurrentId }) => {
+    // Obtain user
+    const user = JSON.parse(localStorage.getItem('profile'));
+    console.log('postId: ', post.creator);
+
+    console.log(post)
+
+    if (user.user._id === post.creator) {
+        console.log('user is creator');
+    }
+
     // Set dispatch
     const dispatch = useDispatch();
 

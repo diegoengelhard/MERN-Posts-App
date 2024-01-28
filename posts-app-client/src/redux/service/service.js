@@ -19,6 +19,9 @@ API.interceptors.request.use((req) => {
 // Gets all posts
 const getPosts = () => API.get('/posts/getPosts');
 
+// Get Posts by Search
+const getPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);
+
 // Creates a new post
 const createPost = (postData) => API.post('/posts/createPost', postData);
 
@@ -41,6 +44,7 @@ const logout = () => API.get('/auth/logout');
 const service = {
     // Posts Routes
     getPosts,
+    getPostsBySearch,
     createPost,
     updatePost, 
     deletePost,

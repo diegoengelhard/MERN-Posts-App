@@ -43,6 +43,25 @@ controller.getPosts = async (req, res) => {
     }
 }
 
+// Get Posts by Search
+controller.getPostsBySearch = async (req, res) => {
+    try {
+        // Obtain search query from request query
+        const { searchQuery, tags } = req.query;
+
+        // Create regex expression
+        const title = new RegExp(searchQuery, 'i'); // i = case insensitive
+
+        // Find posts
+        const posts = await Post.find({ $or: [{ title }, { tags: { $in: tags.split(',') } }] }); // $in = finds all posts that have at least one tag in the tags array
+
+        // Return posts
+        return res.status(200).json({ data: posts });
+    } catch (error) {
+        return res.status(500).send({ error: "Internal server error" });
+    }
+}
+
 // Update post
 controller.updatePost = async (req, res) => {
     try {
