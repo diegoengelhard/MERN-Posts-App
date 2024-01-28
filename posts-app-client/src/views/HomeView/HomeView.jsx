@@ -52,10 +52,12 @@ const HomeView = () => {
 
     // Search function
     const searchPost = () => {
-        if (search.trim()) {
+        if (search.trim() || tags.length) {
             // convert tags to string: [fun, dev] => fun,dev
             dispatch(getPostsBySearch({ search, tags: tags.join(',') }));
-            // navigate(`/posts/search?searchQuery=${search || 'none'}&tags=${tags.join(',')}`);
+    
+            // Navigate to search page
+            navigate(`/posts/search?searchQuery=${search || 'none'}&tags=${tags.join(',')}`);
         } else {
             navigate('/');
         }

@@ -25,9 +25,9 @@ const FeedPost = ({ setCurrentId }) => {
             {!posts.length ?
                 <Typography variant="h4">No posts yet</Typography> : (
                     // Fetch posts 
-                    <Grid className={classes.container} container alignItems="stretch" spacing={3}>
+                    <Grid className={classes.container} container alignItems="stretch" spacing={2}>
                         {posts.map((post) => (
-                            <Grid key={post._id} item xs={12} sm={6} md={6}>
+                            <Grid key={post._id} item xs={12} sm={12} md={6} lg={3}>
                                 <SinglePost post={post} setCurrentId={setCurrentId}  />
                             </Grid>
                         ))}
