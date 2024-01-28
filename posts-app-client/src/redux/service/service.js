@@ -17,7 +17,7 @@ API.interceptors.request.use((req) => {
 
 // Posts Routes
 // Gets all posts
-const getPosts = () => API.get('/posts/getPosts');
+const getPosts = (page) => API.get(`/posts/getPosts?page=${page}`); // page is optional, default is 1
 
 // Get Posts by Search
 const getPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);

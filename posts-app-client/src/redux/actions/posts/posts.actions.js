@@ -3,10 +3,13 @@ import service from '../../service/service'
 
 // Action creators 
 // Gets all posts
-export const getPosts = () => async (dispatch) => {
+export const getPosts = (page) => async (dispatch) => {
     try {
-        const { data } = await service.getPosts();
+        dispatch({ type: 'START_LOADING' });
+        const { data } = await service.getPosts(page);
+
         dispatch({ type: 'FETCH_ALL', payload: data });
+        dispatch({ type: 'END_LOADING' });
     } catch (error) {
         console.log(error);
     }
@@ -45,9 +48,11 @@ export const deletePost = (id) => async (dispatch) => {
 // Get Posts by Search
 export const getPostsBySearch = (searchQuery) => async (dispatch) => {
     try {
+        dispatch({ type: 'START_LOADING' });
         const { data: { data } } = await service.getPostsBySearch(searchQuery);
         console.log(data);
         dispatch({ type: 'FETCH_BY_SEARCH', payload: data });
+        dispatch({ type: 'END_LOADING' });
     } catch (error) {
         console.log(error);
     }

@@ -45,11 +45,6 @@ const HomeView = () => {
     const [search, setSearch] = useState('');
     const [tags, setTags] = useState([]);
 
-    // Use Effect to dispatch getPosts action
-    useEffect(() => {
-        dispatch(getPosts());
-    }, [dispatch]);
-
     // Search function
     const searchPost = () => {
         if (search.trim() || tags.length) {
@@ -118,7 +113,7 @@ const HomeView = () => {
 
                                 {/* PAGINATION (TEMP) */}
                                 <Paper className={classes.pagination} elevation={6}>
-                                    <Paginate />
+                                    <Paginate page={page}/>
                                 </Paper>
                             </Grid>
                         </Grid>

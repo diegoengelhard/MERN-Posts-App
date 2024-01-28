@@ -33,11 +33,21 @@ controller.createPost = async (req, res) => {
 // Get all posts
 controller.getPosts = async (req, res) => {
     try {
-        // Find posts
-        const posts = await Post.find();
+        // Obtain page number from request query
+        const { page } = req.query;
 
-        // Return posts
-        return res.status(200).json(posts);
+        // Define limit of pages
+        const LIMIT = 8;
+        const startIndex = (Number(page) - 1) * LIMIT; // Define starting index of posts
+
+        // Count total number of posts
+        const total = await Post.countDocuments({});
+
+        // Find posts
+        const posts = await Post.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
+
+        // Return response
+        res.status(200).json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
     } catch (error) {
         return res.status(500).send({ error: "Internal server error" });
     }
