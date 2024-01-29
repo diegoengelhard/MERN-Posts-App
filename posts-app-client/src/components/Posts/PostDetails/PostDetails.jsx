@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import moment from 'moment';
 
 // Import Redux actions
@@ -21,10 +21,6 @@ const PostDetails = () => {
 
     // Set dispatch
     const dispatch = useDispatch();
-
-    // Set navigate
-    const navigate = useNavigate();
-
     // Set styles
     const classes = useStyles();
 
@@ -54,12 +50,18 @@ const PostDetails = () => {
             <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6}>
                 <div className={classes.card}>
                     <div className={classes.section}>
+                        {/* POST TITLE */}
                         <Typography variant="h3" component="h2">{post.title}</Typography>
+                        {/* POST TAGS */}
                         <Typography gutterBottom variant="h6" color="textSecondary" component="h2">{post.tags.map((tag) => `#${tag} `)}</Typography>
+                        {/* POST DESCRIPTION */}
                         <Typography gutterBottom variant="body1" component="p">{post.description}</Typography>
+                        {/* POST CREATOR */}
                         <Typography variant="h6">Created by: {post.creator}</Typography>
+                        {/* POST DATE */}
                         <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
                         <Divider style={{ margin: '20px 0' }} />
+                        {/* COMMENT SECTION */}
                         <Typography variant="body1"><strong>Comments - coming soon!</strong></Typography>
                     </div>
                     <div className={classes.imageSection}>

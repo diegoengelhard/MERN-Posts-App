@@ -31,6 +31,9 @@ const createPost = (postData) => API.post('/posts/createPost', postData);
 // Update a post
 const updatePost = (id, postData) => API.patch(`/posts/${id}`, postData);
 
+// Comment on a post
+const commentPost = (id, commentData) => API.post(`/posts/${id}/commentPost`, commentData);
+
 // Delete a post
 const deletePost = (id) => API.delete(`posts/${id}`);
 

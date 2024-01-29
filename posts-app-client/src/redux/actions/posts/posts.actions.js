@@ -48,6 +48,17 @@ export const updatePost = (id, postData) => async (dispatch) => {
     }
 }
 
+// Comment on a post
+export const commentPost = (id, commentData) => async (dispatch) => {
+    try {
+        const { data } = await service.commentPost(id, commentData);
+        dispatch({ type: 'COMMENT', payload: data });
+        return data.comments;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 // Delete a post
 export const deletePost = (id) => async (dispatch) => {
     try {
