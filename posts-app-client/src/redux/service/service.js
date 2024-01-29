@@ -19,6 +19,9 @@ API.interceptors.request.use((req) => {
 // Gets all posts
 const getPosts = (page) => API.get(`/posts/getPosts?page=${page}`); // page is optional, default is 1
 
+// Get a single post by id
+const getPost = (id) => API.get(`/posts/getPost/${id}`);
+
 // Get Posts by Search
 const getPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);
 
@@ -44,6 +47,7 @@ const logout = () => API.get('/auth/logout');
 const service = {
     // Posts Routes
     getPosts,
+    getPost,
     getPostsBySearch,
     createPost,
     updatePost, 
