@@ -53,6 +53,22 @@ controller.getPosts = async (req, res) => {
     }
 }
 
+// Get a single post by id
+controller.getPost = async (req, res) => {
+    try {
+        // Obtain post id from request params
+        const { id } = req.params;
+
+        // Find post
+        const post = await Post.findById(id);
+
+        // Return post
+        res.status(200).json(post);
+    } catch (error) {
+        return res.status(500).send({ error: "Internal server error" });
+    }
+}
+
 // Get Posts by Search
 controller.getPostsBySearch = async (req, res) => {
     try {

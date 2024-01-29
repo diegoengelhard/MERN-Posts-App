@@ -8,6 +8,9 @@ const postController = require('../../controllers/post.controller');
 const { authenticate } = require('../../middlewares/auth.middleware');
 
 // Defines all routes
+// GET get a single post by id
+router.get('/getPost/:id', postController.getPost);
+
 // GET Get all posts
 router.get('/getPosts', postController.getPosts);
 
