@@ -32,6 +32,9 @@ const SinglePost = ({ post, setCurrentId }) => {
         console.log('user is creator');
     }
 
+    // Set navigate
+    const navigate = useNavigate();
+
     // Set dispatch
     const dispatch = useDispatch();
 
