@@ -29,4 +29,7 @@ router.delete('/:id', authenticate, postController.deletePost);
 // PATCH Like post
 router.patch('/:id/likePost', authenticate, postController.toggleLike);
 
+// POST Comment on post
+router.post('/:id/commentPost', authenticate, postController.commentPost);
+
 module.exports = router;

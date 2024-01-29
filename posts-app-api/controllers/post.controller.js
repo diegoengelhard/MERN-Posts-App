@@ -119,6 +119,43 @@ controller.updatePost = async (req, res) => {
     }
 }
 
+// Comment on a post
+controller.commentPost = async (req, res) => {
+    try {
+        // Obtain post id
+        const { id } = req.params;
+
+        // Obtain comment data from request body
+        const { commentData } = req.body;
+
+        // Check if post exists
+        const post = await Post.findById(id);
+        if (!post) {
+            return res.status(404).send({ error: "Post not found" });
+        }
+
+        // Check comment isn't empty
+        if (!commentData) {
+            return res.status(400).send({ error: "Comment cannot be empty" });
+        } 
+
+        // Check if comment isn't no more than 100 characters
+        if (commentData.length > 100) {
+            return res.status(400).send({ error: "Comment cannot be more than 100 chars" });
+        }
+
+        // Update post
+        const updatedPost = await Post.findByIdAndUpdate(id, {
+            $push: { comments: commentData }
+        }, { new: true });
+
+        // Return updated post
+        return res.status(200).json(updatedPost);
+    } catch (error) {
+        return res.status(500).send({ error: "Internal server error" });
+    }
+}
+
 // Delete Post
 controller.deletePost = async (req, res) => {
     try {

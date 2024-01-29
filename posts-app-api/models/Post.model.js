@@ -25,6 +25,10 @@ const PostSchema = new Schema({
         type: [String],
         default: []
     },
+    comments: {
+        type: [String],
+        default: []
+    }
 }, { timestamps: true });
 
 module.exports = Mongoose.model('Post', PostSchema);
