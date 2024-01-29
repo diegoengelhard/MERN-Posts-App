@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { commentPost } from '../../../redux/actions/posts/posts.actions';
 
 // Import MUI components
-import { Typography, TextField, Button } from '@material-ui/core/';
+import { Typography, TextField, Button, Divider } from '@material-ui/core/';
 
 // Import styles
 import useStyles from './PostDetails.styles';
@@ -17,7 +17,6 @@ import { toast } from 'react-toastify';
 const CommentSection = ({ post }) => {
     // Obtain user from local storage
     const user = JSON.parse(localStorage.getItem('profile'));
-    console.log('user from somment:', user);
 
     // Set states
     const [comment, setComment] = useState('');
@@ -31,9 +30,6 @@ const CommentSection = ({ post }) => {
 
     // Set styles
     const classes = useStyles();
-
-    console.log(post);
-    console.log(user.user.firstname);
 
     // Handle Add Comment
     const handleAddComment = async () => {
@@ -67,13 +63,17 @@ const CommentSection = ({ post }) => {
                         {/* MAPS ALL COMMENTS */}
                         <Typography gutterBottom variant="h6">Comments</Typography>
                         {comments?.map((c, i) => (
+                            <>
                             <Typography key={i} gutterBottom variant="subtitle1">
                                 <strong>{c.split(': ')[0]}</strong>
                                 {c.split(':')[1]}
                             </Typography>
+                            <Divider style={{ margin: '10px 0' }} />
+                            </>
                         ))}
                         <div ref={commentRef} />
                     </div>
+                    {/* COMMENT BOX */}
                     <div style={{ width: '70%' }}>
                         <Typography gutterBottom variant="h6">Write a comment</Typography>
                         <TextField fullWidth minRows={4} variant="outlined" label="Comment" multiline value={comment} onChange={(e) => setComment(e.target.value)} />
