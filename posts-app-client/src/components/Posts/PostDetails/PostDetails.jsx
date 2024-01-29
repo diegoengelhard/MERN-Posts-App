@@ -6,6 +6,9 @@ import moment from 'moment';
 // Import Redux actions
 import { getPost } from '../../../redux/actions/posts/posts.actions';
 
+// Import Comment Section
+import CommentSection from './CommentSection';
+
 // Import styles 
 import useStyles from './PostDetails.styles';
 
@@ -62,7 +65,7 @@ const PostDetails = () => {
                         <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
                         <Divider style={{ margin: '20px 0' }} />
                         {/* COMMENT SECTION */}
-                        <Typography variant="body1"><strong>Comments - coming soon!</strong></Typography>
+                        <CommentSection post={post} />
                     </div>
                     <div className={classes.imageSection}>
                         <img className={classes.media} src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />

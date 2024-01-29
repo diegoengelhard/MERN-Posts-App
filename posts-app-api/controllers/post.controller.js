@@ -152,7 +152,7 @@ controller.commentPost = async (req, res) => {
         // Return updated post
         return res.status(200).json(updatedPost);
     } catch (error) {
-        return res.status(500).send({ error: "Internal server error" });
+        return res.status(500).send(error);
     }
 }
 

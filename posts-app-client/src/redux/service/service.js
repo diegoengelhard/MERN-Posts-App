@@ -54,6 +54,7 @@ const service = {
     getPostsBySearch,
     createPost,
     updatePost, 
+    commentPost,
     deletePost,
     // Auth Routes
     signUp,

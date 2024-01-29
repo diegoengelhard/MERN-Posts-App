@@ -25,9 +25,12 @@ const postReducer = (state = { isLoading: true, posts: [] }, action) => {
             return {
                 ...state,
                 posts: state.posts.map((post) => {
+                    // change the post that was commented on
                     if (post._id === action.payload._id) {
                         return action.payload;
                     }
+
+                    // return all other posts normally
                     return post;
                 }),
             };
