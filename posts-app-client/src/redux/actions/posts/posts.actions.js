@@ -48,6 +48,16 @@ export const updatePost = (id, postData) => async (dispatch) => {
     }
 }
 
+// Like a post
+export const likePost = (id) => async (dispatch) => {
+    try {
+        const { data } = await service.likePost(id);
+        dispatch({ type: 'LIKE', payload: data });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 // Comment on a post
 export const commentPost = (id, commentData) => async (dispatch) => {
     try {

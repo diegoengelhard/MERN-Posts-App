@@ -31,6 +31,9 @@ const createPost = (postData) => API.post('/posts/createPost', postData);
 // Update a post
 const updatePost = (id, postData) => API.patch(`/posts/${id}`, postData);
 
+// Like a post
+const likePost = (id) => API.patch(`/posts/${id}/likePost`);
+
 // Comment on a post
 const commentPost = (id, commentData) => API.post(`/posts/${id}/commentPost`, commentData);
 
@@ -53,6 +56,7 @@ const service = {
     getPost,
     getPostsBySearch,
     createPost,
+    likePost,
     updatePost, 
     commentPost,
     deletePost,

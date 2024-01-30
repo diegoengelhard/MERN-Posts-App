@@ -137,7 +137,7 @@ controller.commentPost = async (req, res) => {
         // Check comment isn't empty
         if (!commentData) {
             return res.status(400).send({ error: "Comment cannot be empty" });
-        } 
+        }
 
         // Check if comment isn't no more than 100 characters
         if (commentData.length > 100) {
@@ -181,30 +181,41 @@ controller.deletePost = async (req, res) => {
 // Like Post
 controller.toggleLike = async (req, res) => {
     try {
-        // Obtains post id from request params
-        const { id } = req.params
+        // Obtaibns user id
+        const user = req.user;
+        const userId = user._id.toString();
 
-        // Verify if post exists
-        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+        // Obtain post id
+        const { id } = req.params;
 
-        // Find post
+        // Check if user id exists
+        if (!userId) {
+            return res.status(401).send({ error: "Unauthorized: missing userId" });
+        }
+
+        // Check if post exists
         const post = await Post.findById(id);
+        if (!post) {
+            return res.status(404).send({ error: "Post not found" });
+        }
 
-        // Check if user has already liked the post
-        const index = post.likes.findIndex((id) => id === String(req.userId));
+        // Check if user already liked post
+        const index = post.likes.findIndex((id) => id === userId);
 
-        // If user has already liked the post, remove like
+        // if user already liked post, unlike post, else like post
         if (index === -1) {
-            post.likes.push(req.userId);
+            // Like post
+            post.likes.push(userId);
         } else {
-            post.likes = post.likes.filter((id) => id !== String(req.userId));
+            // Unlike post
+            post.likes = post.likes.filter((id) => id !== userId);
         }
 
         // Update post
         const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true });
 
         // Return updated post
-        res.status(200).json({message: "Post liked/unliked successfully", updatedPost});
+        return res.status(200).json({message: "Post (un)liked successfully", data: updatedPost});
 
     } catch (error) {
         return res.status(500).send(error.message);

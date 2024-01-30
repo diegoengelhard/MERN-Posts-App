@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 // Import Redux actions
-import { deletePost } from '../../../redux/actions/posts/posts.actions';
+import { deletePost, likePost } from '../../../redux/actions/posts/posts.actions';
 
 // Import toast
 import { toast } from 'react-toastify';
@@ -19,12 +19,16 @@ import { Card, CardActions, CardContent, CardMedia, Button, Typography, ButtonBa
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAltOutlined';
 
 
 const SinglePost = ({ post, setCurrentId }) => {
     // Obtain user
     const user = JSON.parse(localStorage.getItem('profile'));
     console.log('postId: ', post.creator);
+
+    // Set post likes
+    const [likes, setLikes] = useState(post?.likes);
 
     console.log(post)
 
@@ -41,6 +45,29 @@ const SinglePost = ({ post, setCurrentId }) => {
     // Set styles
     const classes = useStyles();
 
+    // Obtain user id
+    const userId = user?.user._id;
+    console.log('userId: ', userId);
+
+    // User has liked post
+    const hasLikedPost = post.likes.find((like) => like === (userId));
+
+    // Like post
+    const handleLike = async () => {
+        try {
+            dispatch(likePost(post._id));
+
+            if (hasLikedPost) {
+                setLikes(post.likes.filter((id) => id !== userId));
+            } else {
+                setLikes([...post.likes, userId]);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error('Error liking post');
+        }
+    }
+
     // Delete post
     const handleDelete = () => {
         dispatch(deletePost(post._id));
@@ -51,6 +78,20 @@ const SinglePost = ({ post, setCurrentId }) => {
     const openPost = () => {
         navigate(`/posts/${post._id}`);
     }
+
+    // Post Likes
+    const Likes = () => {
+        if (likes.length > 0) {
+            return likes.find((like) => like === userId)
+                ? (
+                    <><ThumbUpAltIcon fontSize="small" />&nbsp;{likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} like${likes.length > 1 ? 's' : ''}`}</>
+                ) : (
+                    <><ThumbUpAltOutlined fontSize="small" />&nbsp;{likes.length} {likes.length === 1 ? 'Like' : 'Likes'}</>
+                );
+        }
+
+        return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>;
+    };
 
     return (
         <>
@@ -84,7 +125,9 @@ const SinglePost = ({ post, setCurrentId }) => {
                 </ButtonBase>
                 {/* Post Actions */}
                 <CardActions className={classes.cardActions}>
-                    <Button size="small" color="primary" onClick={() => { }}><ThumbUpAltIcon fontSize="small" /> Like </Button>
+                    <Button size="small" color="primary" disabled={!user?.user} onClick={handleLike}>
+                        <Likes />
+                    </Button>
                     <Button size="small" color="primary" onClick={handleDelete}><DeleteIcon fontSize="small" /> Delete</Button>
                 </CardActions>
             </Card>

@@ -34,6 +34,19 @@ const postReducer = (state = { isLoading: true, posts: [] }, action) => {
                     return post;
                 }),
             };
+        case 'LIKE':
+            return {
+                ...state,
+                posts: state.posts.map((post) => {
+                    // change the post that was liked
+                    if (post._id === action.payload._id) {
+                        return action.payload;
+                    }
+
+                    // return all other posts normally
+                    return post;
+                }),
+            };
         case 'CREATE':
             return { ...state, posts: [...state.posts, action.payload] };
         case 'UPDATE':
