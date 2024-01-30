@@ -45,7 +45,7 @@ const Form = ({ currentId, setCurrentId }) => {
         setUser(profile);
 
         if (profile && profile.user) {
-            setPostData((prevData) => ({ ...prevData, creator: `${profile.user.firstname} ${profile.user.lastname}` }));
+            setPostData((prevData) => ({ ...prevData, creator: `${profile.user.username}` }));
         }
     }, []);
 

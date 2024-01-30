@@ -18,7 +18,7 @@ const Navbar = () => {
     if (user) {
         console.log('user exists');
         console.log('user:', user);
-        console.log('user firstname:', user.user.firstname);
+        console.log('user username:', user.user.username);
     }
 
     // Set dispatch
@@ -37,6 +37,11 @@ const Navbar = () => {
         // Dispatch logout action from redux
         dispatch({ type: 'LOGOUT' });
         toast.success('Logout successful!');
+
+        // Reload the window after 1 second
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
     }
 
     return (
@@ -49,8 +54,8 @@ const Navbar = () => {
                 <Toolbar className={classes.toolbar}>
                     {user ? (
                         <div className={classes.profile}>
-                            <Avatar className={classes.purple} alt={user.user.firstname} >{user.user.firstname.charAt(0)}</Avatar>
-                            <Typography className={classes.userName} variant="h6">Welcome, {user.user.firstname}</Typography>
+                            <Avatar className={classes.purple} alt={user.user.username} >{user.user.username.charAt(0)}</Avatar>
+                            <Typography className={classes.userName} variant="h6">Welcome, {user.user.username}</Typography>
                             <Button variant="contained" className={classes.logout} color="secondary" onClick={logout} >Logout</Button>
                         </div>
                     ) : (

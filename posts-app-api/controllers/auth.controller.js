@@ -13,10 +13,10 @@ const controller = {};
 controller.signUp = async (req, res) => {
     try {
         // Get user input
-        const { firstname, lastname, email, password, confirmPassword } = req.body;
+        const { username, email, password, confirmPassword } = req.body;
 
         // Validate user input
-        if (!(firstname || lastname || email || password || confirmPassword)) return res.status(400).json({ message: "Missing required fields!" });
+        if (!(username || email || password || confirmPassword)) return res.status(400).json({ message: "Missing required fields!" });
 
         // Check if user already exist
         const user = await User.findOne({ email });
@@ -39,8 +39,7 @@ controller.signUp = async (req, res) => {
 
         // Create user in our database
         const newUser = new User({
-            firstname,
-            lastname,
+            username,
             email,
             password: hashedPassword,
         });

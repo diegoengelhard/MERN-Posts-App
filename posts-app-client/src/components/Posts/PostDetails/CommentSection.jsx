@@ -38,7 +38,7 @@ const CommentSection = ({ post }) => {
         } else {
             try {
                 // Add comment to post -> dispatch commentPost action
-                const newComments = await dispatch(commentPost(post._id, { commentData: `${user.user.firstname}: ${comment}` }));
+                const newComments = await dispatch(commentPost(post._id, { commentData: `${user.user.username}: ${comment}` }));
 
                 // Set new comments to post comments
                 setComments(newComments);

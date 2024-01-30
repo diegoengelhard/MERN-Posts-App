@@ -32,10 +32,6 @@ const SinglePost = ({ post, setCurrentId }) => {
 
     console.log(post)
 
-    if (user.user._id === post.creator) {
-        console.log('user is creator');
-    }
-
     // Set navigate
     const navigate = useNavigate();
 
@@ -130,7 +126,7 @@ const SinglePost = ({ post, setCurrentId }) => {
                         <Likes />
                     </Button>
                     {/* DELETE POST */}
-                    {(user?.user._id === post.creator) && (
+                    {(user?.user.username === post.creator) && (
                         <Button size="small" color="secondary" onClick={handleDelete}>
                             <DeleteIcon fontSize="small" />
                             Delete
