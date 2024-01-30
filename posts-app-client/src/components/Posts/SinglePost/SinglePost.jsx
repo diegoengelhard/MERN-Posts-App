@@ -125,10 +125,17 @@ const SinglePost = ({ post, setCurrentId }) => {
                 </ButtonBase>
                 {/* Post Actions */}
                 <CardActions className={classes.cardActions}>
+                    {/* LIKE POST */}
                     <Button size="small" color="primary" disabled={!user?.user} onClick={handleLike}>
                         <Likes />
                     </Button>
-                    <Button size="small" color="primary" onClick={handleDelete}><DeleteIcon fontSize="small" /> Delete</Button>
+                    {/* DELETE POST */}
+                    {(user?.user._id === post.creator) && (
+                        <Button size="small" color="secondary" onClick={handleDelete}>
+                            <DeleteIcon fontSize="small" />
+                            Delete
+                        </Button>
+                    )}
                 </CardActions>
             </Card>
         </>
