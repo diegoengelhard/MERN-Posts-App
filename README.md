@@ -11,8 +11,6 @@ To get started with this project, follow these steps:
 git clone https://github.com/diegoengelhard/NextJS-Shop-App.git
 ```
 
-2. Copy the `.env.example` to your own `.env` file for __posts-app-api__
-
 2. Run docker compose to run the app:
 ```
 docker-compose up
