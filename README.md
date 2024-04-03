@@ -8,7 +8,7 @@ To get started with this project, follow these steps:
 
 1. Clone the repository: 
 ```
-git clone https://github.com/diegoengelhard/NextJS-Shop-App.git
+git clone https://github.com/diegoengelhard/MERN-Posts-App.git
 ```
 
 2. Run docker compose to run the app:
