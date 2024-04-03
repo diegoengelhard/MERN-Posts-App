@@ -11,10 +11,12 @@ To get started with this project, follow these steps:
 git clone https://github.com/diegoengelhard/MERN-Posts-App.git
 ```
 
-2. Run docker compose to run the app:
+2. Copy the `.env.example` file to your own `.env` file for __posts-app-api__
+
+3. Run docker compose to run the app:
 ```
 docker-compose up
 ```
 
-3. See the result in http://localhost:5173 
+4. See the result in http://localhost:5173 
 
