@@ -1,0 +1,27 @@
+# specify the version of docker-compose
+version: "3.8"
+
+services:
+  # define the frontend service
+  web:
+    depends_on: 
+      - api
+    build:
+      context: ./posts-app-client
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - 5173:5173
+
+  # define the api service
+  api: 
+    build:
+      context: ./posts-app-api
+      dockerfile: Dockerfile
+    container_name: backend
+    ports: 
+      - 3500:3500
+    env_file:
+      - ./posts-app-api/.env
+    environment:
+      - MONGODB_URI=mongodb+srv://00356119:uca123@posts-app.owcfmmh.mongodb.net/?retryWrites=true&w=majority
